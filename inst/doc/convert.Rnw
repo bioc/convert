@@ -3,6 +3,7 @@
 %\VignetteKeywords{microarray classes data structures}
 %\VignettePackage{convert}
 \documentclass[12pt]{article}
+\usepackage{Sweave}
 
 \textwidth=6.2in
 \textheight=8.5in
@@ -61,8 +62,4 @@ The \texttt{convert} package provides conversion to and from \texttt{RGList} and
 %@
 
 \end{document}
-
-
-
-
 
