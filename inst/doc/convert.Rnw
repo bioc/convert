@@ -15,7 +15,7 @@
 \begin{document}
 \title{Converting Between Microarray Data Classes:\\
 the \texttt{convert} Package Version 1.1}
-\author{Gordon Smyth and Robert Wettenhall}
+\author{Gordon Smyth and James Wettenhall}
 \date{March 12, 2004}
 \maketitle
 
