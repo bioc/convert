@@ -13,6 +13,17 @@ Convert between limma, marrayClasses and Biobase data objects.
 
 \details{
 Objects can be converted (coerced) from one class to another using \code{as(object, Class)} where \code{object} is an object to convert and \code{Class} is the name of the class to convert to.
+The following conversions are provided:
+
+\tabular{ll}{
+\bold{from}\tab \bold{to}\cr
+\code{RGList} \tab \code{marrayRaw}\cr
+\code{marrayRaw} \tab \code{RGList}\cr
+\code{MAList} \tab \code{marrayNorm}\cr
+\code{marrayNorm} \tab \code{MAList}\cr
+\code{RGList} \tab \code{exprSet}\cr
+\code{MAList} \tab \code{exprSet}\cr
+}
 }
 
 \author{Gordon Smyth}
