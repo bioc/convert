@@ -1,5 +1,5 @@
 %\VignetteIndexEntry{Converting Between Microarray Data Classes}
-%\VignetteDepends{convert, Biobase, marrayClasses, limma}
+%\VignetteDepends{convert, Biobase, marray, limma}
 %\VignetteKeywords{microarray classes data structures}
 %\VignettePackage{convert}
 \documentclass[12pt]{article}
@@ -14,12 +14,12 @@
 
 \begin{document}
 \title{Converting Between Microarray Data Classes:\\
-the \texttt{convert} Package Version 1.1}
+the \texttt{convert} Package Version 1.1.7}
 \author{Gordon Smyth and James Wettenhall}
-\date{March 12, 2004}
+\date{May 12, 2004}
 \maketitle
 
-The convert package provides the ability to convert between microarray data formats (object classes) defined in the packages Biobase, limma and marrayClasses.
+The convert package provides the ability to convert between microarray data formats (object classes) defined in the packages Biobase, limma and marray.
 Conversion is done using the function \texttt{as} from the methods package.
 For example, if \texttt{x} is a \texttt{marrayNorm} object produced by the marrayNorm package, then
 \begin{Schunk}
@@ -40,11 +40,11 @@ The following data classes are supported:
 A simple list-based class for storing $M$-values
      and $A$-values and associated information for a batch of spotted microarrays.
 \item
-\texttt{marrayRaw} (marrayClasses). 
+\texttt{marrayRaw} (marray). 
 	Stores red and green channel foreground and background intensities and associate information for a batch of spotted microarrays.
 	Analogous to \texttt{RGList}.
 \item
-\texttt{marrayNorm} (marrayClasses).
+\texttt{marrayNorm} (marray).
 	Stores red and green channel foreground and background intensities and associate information for a batch of spotted microarrays.
 	Analogous to \texttt{MAList}.
 \item
@@ -62,4 +62,3 @@ The \texttt{convert} package provides conversion to and from \texttt{RGList} and
 %@
 
 \end{document}
-

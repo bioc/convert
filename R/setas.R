@@ -50,7 +50,7 @@ setAs("RGList", "marrayRaw", function(from, to) {
 
 setAs("marrayNorm", "MAList", function(from, to)
 #	Gordon Smyth
-#	20 Dec 2003
+#	20 Dec 2003. Last modified 12 May 2004.
 {
 	y <- new(to)
 	ifposlen <- function(x) if(length(x)) return(x) else return(NULL)
@@ -71,7 +71,8 @@ setAs("marrayNorm", "MAList", function(from, to)
 	y$targets <- ifposlen(from@maTargets@maInfo)
 	y$targets$Labels <- ifposlen(from@maTargets@maLabels)
 	y$notes <- ifposlen(from@maNotes)
-	y$maNormCall <- ifposlen(from@maNormCall)
+	y$maNormCall <- from@maNormCall
+	if(as.character(y$maNormCall)=="<undef>") y$maNormCall <- NULL
 	y
 })
 

@@ -10,7 +10,7 @@
 \title{Convert Data Objects}
 
 \description{
-Convert between limma, marrayClasses and Biobase data objects.
+Convert between limma, marray and Biobase data objects.
 }
 
 \details{
