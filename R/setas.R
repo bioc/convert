@@ -126,7 +126,8 @@ setAs("MAList", "exprSet", function(from, to)
 setAs("marrayRaw", "exprSet", function(from)
 ## Assemble green and red intensities into alternate columns
 ## Jean Yang
-## 15 March 2004.  Last modified 15 May 2004.
+## 15 March 2004.
+#	Modified by Gordon Smyth 15 May 2004.
 {
   eset<-new("exprSet")
   d <- dim(from@maGf)
@@ -137,7 +138,7 @@ setAs("marrayRaw", "exprSet", function(from)
   dim(exprs) <- c(d[1],2*d[2])
   eset@exprs <- exprs
   if(length(from@maTargets@maInfo)) {
-    targets <- array2channel(maInfo(maTargets(from)))
+    targets <- array2channel(maInfo(maTargets(from)),grep=TRUE)
     pdata <- new("phenoData", pData=targets, varLabels=as.list(names(targets)))
     eset@phenoData <- pdata
   }
