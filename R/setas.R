@@ -121,3 +121,35 @@ setAs("MAList", "exprSet", function(from, to)
 	y@notes <- "Converted from MAList object, exprs are M-values"
     y
 })
+
+setAs("marrayRaw", "exprSet", function(from)
+## Assemble green and red intensities into alternate columns
+## Jean Yang
+## 15 March 2004  
+{
+  eset<-new("exprSet")
+  d <- dim(from@maGf)
+  exprs <- array(0,c(d,2))
+  exprs[,,1] <- maLG(from)
+  exprs[,,2] <- maLR(from)
+  exprs <- aperm(exprs,c(1,3,2))
+  dim(exprs) <- c(d[1],2*d[2])
+  eset@exprs <- exprs
+  targets<-maInfo(maTargets(from))
+  pdata<-new("phenoData", pData=targets, varLabels=as.list(names(targets)))
+  eset@phenoData <- pdata
+  eset@notes <- paste(from@maNotes, ":: Converted from marrayRaw object, exprs are green/red log-intensites in odd/even columns")
+  eset
+})
+
+setAs("marrayNorm", "exprSet", function(from)
+## Jean Yang
+## 15 March 2004
+{
+  eset<-new("exprSet", exprs=maM(from))
+  targets<-maInfo(maTargets(from))
+  eset@phenoData  <- new("phenoData", pData=targets, varLabels=as.list(names(targets)))
+  eset@notes <- paste(from@maNotes, ":: Converted from marrayNorm object, exprs are log-ratios")
+  eset
+})
+

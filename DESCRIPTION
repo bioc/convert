@@ -1,5 +1,5 @@
 Package: convert
-Version: 1.1.2
+Version: 1.1.3
 Date: 2004/03/15
 Title: Convert Microarray Data Objects
 Author: Gordon Smyth <smyth@wehi.edu.au> and James Wettenhall <wettenhall@wehi.edu.au>
