@@ -31,7 +31,7 @@ setAs("marrayRaw", "RGList", function(from, to) {
 setAs("RGList", "marrayRaw", function(from, to) {
 #	Gordon Smyth
 #	20 Dec 2003
-#      Last modified by Jean Yang, June 30, 2004. Add conversation of control status
+
 	y <- new(to)
 	if(!is.null(from$G)) y@maGf <- from$G
 	if(!is.null(from$R)) y@maRf <- from$R
@@ -43,7 +43,6 @@ setAs("RGList", "marrayRaw", function(from, to) {
 	if(!is.null(from$printer$nspot.r)) y@maLayout@maNsr <- from$printer$nspot.r
 	if(!is.null(from$printer$nspot.c)) y@maLayout@maNsc <- from$printer$nspot.c
 	if(!is.null(from$genes)) y@maGnames@maInfo <- from$genes
-        if(!is.null(from$genes$Status)) y@maLayout@maControls <- as.factor(from$genes$Status)
 	if(!is.null(from$targets)) y@maTargets@maInfo <- from$targets
 	if(!is.null(from$notes)) y@maNotes <- "Converted from RGList object"
 	y
@@ -97,7 +96,7 @@ setAs("MAList", "marrayNorm", function(from, to)
 
 setAs("RGList", "exprSet", function(from, to)
 #	Gordon Smyth
-#	7 March 2004.  Last modified 28 June 2004.
+#	7 March 2004.  Last modified 16 March 2004.
 {
 	y <- new(to)
 #	Assemble green and red intensities into alternate columns
@@ -108,7 +107,7 @@ setAs("RGList", "exprSet", function(from, to)
 	exprs <- aperm(exprs,c(1,3,2))
 	dim(exprs) <- c(d[1],2*d[2])
 	y@exprs <- exprs
-	if(!is.null(from$targets)) y@phenoData@pData <- targetsA2C(from$targets)
+	if(!is.null(from$targets)) y@phenoData@pData <- array2channel(from$targets)
 	y@notes <- "Converted from RGList object, exprs are green/red intensites in odd/even columns"
     y
 })
@@ -128,7 +127,7 @@ setAs("marrayRaw", "exprSet", function(from)
 ## Assemble green and red intensities into alternate columns
 ## Jean Yang
 ## 15 March 2004.
-#	Modified by Gordon Smyth 28 June 2004.
+#	Modified by Gordon Smyth 15 May 2004.
 {
   eset<-new("exprSet")
   d <- dim(from@maGf)
@@ -139,7 +138,7 @@ setAs("marrayRaw", "exprSet", function(from)
   dim(exprs) <- c(d[1],2*d[2])
   eset@exprs <- exprs
   if(length(from@maTargets@maInfo)) {
-    targets <- targetsA2C(maInfo(maTargets(from)),grep=TRUE)
+    targets <- array2channel(maInfo(maTargets(from)),grep=TRUE)
     pdata <- new("phenoData", pData=targets, varLabels=as.list(names(targets)))
     eset@phenoData <- pdata
   }
