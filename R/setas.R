@@ -95,7 +95,7 @@ setAs("MAList", "marrayNorm", function(from, to)
 
 setAs("RGList", "exprSet", function(from, to)
 #	Gordon Smyth
-#	7 March 2004
+#	7 March 2004.  Last modified 16 March 2004.
 {
 	y <- new(to)
 #	Assemble green and red intensities into alternate columns
@@ -106,7 +106,7 @@ setAs("RGList", "exprSet", function(from, to)
 	exprs <- aperm(exprs,c(1,3,2))
 	dim(exprs) <- c(d[1],2*d[2])
 	y@exprs <- exprs
-	if(!is.null(from$targets)) y@phenoData@pData <- from$targets
+	if(!is.null(from$targets)) y@phenoData@pData <- array2channel(from$targets)
 	y@notes <- "Converted from RGList object, exprs are green/red intensites in odd/even columns"
     y
 })
@@ -125,7 +125,7 @@ setAs("MAList", "exprSet", function(from, to)
 setAs("marrayRaw", "exprSet", function(from)
 ## Assemble green and red intensities into alternate columns
 ## Jean Yang
-## 15 March 2004  
+## 15 March 2004.  Last modified 16 March 2004.
 {
   eset<-new("exprSet")
   d <- dim(from@maGf)
@@ -135,8 +135,8 @@ setAs("marrayRaw", "exprSet", function(from)
   exprs <- aperm(exprs,c(1,3,2))
   dim(exprs) <- c(d[1],2*d[2])
   eset@exprs <- exprs
-  targets<-maInfo(maTargets(from))
-  pdata<-new("phenoData", pData=targets, varLabels=as.list(names(targets)))
+  targets <- array2channel(maInfo(maTargets(from)))
+  pdata <- new("phenoData", pData=targets, varLabels=as.list(names(targets)))
   eset@phenoData <- pdata
   eset@notes <- paste(from@maNotes, ":: Converted from marrayRaw object, exprs are green/red log-intensites in odd/even columns")
   eset
