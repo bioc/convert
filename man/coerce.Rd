@@ -18,7 +18,7 @@ Objects can be converted (coerced) from one class to another using \code{as(obje
 The following conversions are provided:
 
 \tabular{ll}{
-\bold{from}\tab \bold{to}\cr
+From:\tab To:\cr
 \code{RGList} \tab \code{marrayRaw}\cr
 \code{marrayRaw} \tab \code{RGList}\cr
 \code{MAList} \tab \code{marrayNorm}\cr

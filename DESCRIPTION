@@ -1,8 +1,8 @@
 Package: convert
-Version: 1.1.3
-Date: 2004/03/15
+Version: 1.1.4
+Date: 2004/03/16
 Title: Convert Microarray Data Objects
-Author: Gordon Smyth <smyth@wehi.edu.au> and James Wettenhall <wettenhall@wehi.edu.au>
+Author: Gordon Smyth <smyth@wehi.edu.au>, James Wettenhall <wettenhall@wehi.edu.au> and Yee Hwa (Jean) Yang <jean@biostat.ucsf.edu>
 Maintainer: Gordon Smyth <smyth@wehi.edu.au>
 Depends: R (>= 1.8.1), Biobase, limma, marrayClasses
 Description:  Define coerce methods for microarray data objects.

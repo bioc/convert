@@ -113,11 +113,11 @@ setAs("RGList", "exprSet", function(from, to)
 
 setAs("MAList", "exprSet", function(from, to)
 #	Gordon Smyth
-#	7 March 2004
+#	7 March 2004. Last modified 16 March 2004.
 {
 	y <- new(to)
 	if(!is.null(from$M)) y@exprs <- as.matrix(from$M)
-	if(!is.null(from$targets)) y@phenoData$pData <- from$targets
+	if(!is.null(from$targets)) y@phenoData@pData <- from$targets
 	y@notes <- "Converted from MAList object, exprs are M-values"
     y
 })
