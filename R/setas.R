@@ -31,7 +31,7 @@ setAs("marrayRaw", "RGList", function(from, to) {
 setAs("RGList", "marrayRaw", function(from, to) {
 #	Gordon Smyth
 #	20 Dec 2003
-
+#      Last modified by Jean Yang, June 30, 2004. Add conversation of control status
 	y <- new(to)
 	if(!is.null(from$G)) y@maGf <- from$G
 	if(!is.null(from$R)) y@maRf <- from$R
@@ -43,6 +43,7 @@ setAs("RGList", "marrayRaw", function(from, to) {
 	if(!is.null(from$printer$nspot.r)) y@maLayout@maNsr <- from$printer$nspot.r
 	if(!is.null(from$printer$nspot.c)) y@maLayout@maNsc <- from$printer$nspot.c
 	if(!is.null(from$genes)) y@maGnames@maInfo <- from$genes
+        if(!is.null(from$genes$Status)) y@maLayout@maControls <- as.factor(from$genes$Status)
 	if(!is.null(from$targets)) y@maTargets@maInfo <- from$targets
 	if(!is.null(from$notes)) y@maNotes <- "Converted from RGList object"
 	y
