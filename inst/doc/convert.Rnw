@@ -1,0 +1,68 @@
+%\VignetteIndexEntry{Converting Between Microarray Data Classes}
+%\VignetteDepends{convert, Biobase, marrayClasses, limma}
+%\VignetteKeywords{microarray classes data structures}
+%\VignettePackage{convert}
+\documentclass[12pt]{article}
+
+\textwidth=6.2in
+\textheight=8.5in
+\oddsidemargin=0.2in
+\evensidemargin=0.2in
+\headheight=0in
+\headsep=0in
+
+\begin{document}
+\title{Converting Between Microarray Data Classes:\\
+the \texttt{convert} Package Version 1.1}
+\author{Gordon Smyth and Robert Wettenhall}
+\date{March 12, 2004}
+\maketitle
+
+The convert package provides the ability to convert between microarray data formats (object classes) defined in the packages Biobase, limma and marrayClasses.
+Conversion is done using the function \texttt{as} from the methods package.
+For example, if \texttt{x} is a \texttt{marrayNorm} object produced by the marrayNorm package, then
+\begin{Schunk}
+\begin{Sinput}
+> y <- as(x, "MAList")
+\end{Sinput}
+\end{Schunk}
+will produce a \texttt{MAList} object \texttt{y}, useful in the limma package.
+
+The following data classes are supported:
+\begin{itemize}
+\item
+\texttt{RGList} (limma).
+	A simple list-based class for storing red 
+     and green channel foreground and background intensities and associated information for a batch of spotted microarrays.
+\item
+\texttt{MAList} (limma).
+A simple list-based class for storing $M$-values
+     and $A$-values and associated information for a batch of spotted microarrays.
+\item
+\texttt{marrayRaw} (marrayClasses). 
+	Stores red and green channel foreground and background intensities and associate information for a batch of spotted microarrays.
+	Analogous to \texttt{RGList}.
+\item
+\texttt{marrayNorm} (marrayClasses).
+	Stores red and green channel foreground and background intensities and associate information for a batch of spotted microarrays.
+	Analogous to \texttt{MAList}.
+\item
+\texttt{exprSet} (Biobase).
+	Stores microarray expression data, one value for each probe for each array and associated phenotypic data.
+	Links out to an external annotation library for probe information.
+	Commonly used for single channel data such as Affymetrix or for pre-processed two-color data in the form of log-ratios ready for cluster analysis or classification.
+\end{itemize}
+The \texttt{convert} package provides conversion to and from \texttt{RGList} and \texttt{marrayRAw}, to and from \texttt{MAList} and \texttt{MarrayNorm}, from \texttt{RGList} to \texttt{exprSet} and from \texttt{MAList} to \texttt{exprSet}.
+
+%<<R>>=
+%x <- new("MAList")
+%x$M <- matrix(rnorm(5*2),5,2)
+%y <- as(x,"exprSet")
+%@
+
+\end{document}
+
+
+
+
+

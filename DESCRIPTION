@@ -1,0 +1,10 @@
+Package: convert
+Version: 1.1
+Date: 2004/03/12
+Title: Convert Microarray Data Objects
+Author: Gordon Smyth <smyth@wehi.edu.au> and James Wettenhall <wettenhall@wehi.edu.au>
+Maintainer: Gordon Smyth <smyth@wehi.edu.au>
+Depends: R (>= 1.8.1), Biobase, limma, marrayClasses
+Description:  Define coerce methods between microarray data objects.
+License: LGPL
+URL: http://bioinf.wehi.edu.au/limma/convert.html
