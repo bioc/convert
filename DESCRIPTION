@@ -8,3 +8,5 @@ Depends: R (>= 1.8.1), Biobase, limma (>= 1.5.7), marrayClasses
 Description:  Define coerce methods for microarray data objects.
 License: LGPL
 URL: http://bioinf.wehi.edu.au/limma/convert.html
+ReleaseLevel: devel
+
