@@ -106,7 +106,7 @@ setAs("RGList", "exprSet", function(from, to)
 	exprs <- aperm(exprs,c(1,3,2))
 	dim(exprs) <- c(d[1],2*d[2])
 	y@exprs <- exprs
-	if(!is.null(from$targets)) y@phenoData$pData <- from$targets
+	if(!is.null(from$targets)) y@phenoData@pData <- from$targets
 	y@notes <- "Converted from RGList object, exprs are green/red intensites in odd/even columns"
     y
 })
@@ -146,8 +146,8 @@ setAs("marrayNorm", "exprSet", function(from)
 ## Jean Yang
 ## 15 March 2004
 {
-  eset<-new("exprSet", exprs=maM(from))
-  targets<-maInfo(maTargets(from))
+  eset <- new("exprSet", exprs=maM(from))
+  targets <- maInfo(maTargets(from))
   eset@phenoData  <- new("phenoData", pData=targets, varLabels=as.list(names(targets)))
   eset@notes <- paste(from@maNotes, ":: Converted from marrayNorm object, exprs are log-ratios")
   eset
