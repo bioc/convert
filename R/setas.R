@@ -75,7 +75,7 @@ setAs("marrayNorm", "MAList", function(from, to)
         ##modified with Gordon's suggestions
         ##y$maNormCall <- from@maNormCall
 	##if(as.character(y$maNormCall)=="<undef>") y$maNormCall <- NULL
-        if(from@maNormCalll != getClass("call")@prototype) y$maNormCall <- from@maNormCall
+        if(from@maNormCall != getClass("call")@prototype) y$maNormCall <- from@maNormCall
 	y
 })
 
