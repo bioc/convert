@@ -153,7 +153,8 @@ setAs("marrayNorm", "exprSet", function(from)
 ## Jean Yang
 ## 15 March 2004
 {
-  eset <- new("exprSet", exprs=maM(from))
+  eset <- new("exprSet")
+  eset@exprs <- maM(from)
   targets <- maInfo(maTargets(from))
   eset@phenoData  <- new("phenoData", pData=targets, varLabels=as.list(names(targets)))
   eset@notes <- paste(from@maNotes, ":: Converted from marrayNorm object, exprs are log-ratios")
