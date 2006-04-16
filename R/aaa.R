@@ -1,5 +1,0 @@
-require("methods")
-require("utils")
-require("Biobase")
-require("limma")
-require("marray")
