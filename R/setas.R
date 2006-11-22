@@ -115,6 +115,12 @@ setAs("RGList", "exprSet", function(from, to)
     y
 })
 
+##there is intentionally no setAs function of this type
+##setAs("RGList", "ExpressionSet", function(from)
+##Robert Gentleman
+##Nov 22, 2006
+
+
 setAs("MAList", "exprSet", function(from, to)
 #	Gordon Smyth
 #	7 March 2004. Last modified 16 March 2004.
@@ -130,11 +136,11 @@ setAs("MAList", "ExpressionSet", function(from)
 #  Robert Gentleman
 #  22 November 2006
 {
-	nM = new("MIAME")
-	notes(nM) = list("Converted from MAList object, exprs are M-values")
-	new("ExpressionSet", exprs = as.matrix(from$M),
-	 phenoData = new("AnnotatedDataFrame", data=from$targets),
-	 experimentData = nM)
+    nM = new("MIAME")
+    notes(nM) = list("Converted from MAList object, exprs are M-values")
+    new("ExpressionSet", exprs = as.matrix(from$M),
+        phenoData = new("AnnotatedDataFrame", data=from$targets),
+        experimentData = nM)
 })
 
 setAs("marrayRaw", "exprSet", function(from)
@@ -160,10 +166,9 @@ setAs("marrayRaw", "exprSet", function(from)
   eset
 })
 
-setAs("marrayRaw", "ExpressionSet", function(from)
-{
-	warning("not yet")
-})
+##There is intentionally no setAs function with this signature
+##Robert Gentleman, Nov 22, 2006
+#setAs("marrayRaw", "ExpressionSet", function(from)
 
 setAs("marrayNorm", "exprSet", function(from)
 ## Jean Yang

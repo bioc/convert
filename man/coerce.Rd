@@ -5,12 +5,11 @@
 \alias{coerce,MAList,marrayNorm-method}
 \alias{coerce,marrayNorm,MAList-method}
 \alias{coerce,RGList,exprSet-method}
-\alias{coerce,RGList,ExpressionSet-method}
 \alias{coerce,MAList,exprSet-method}
 \alias{coerce,MAList,ExpressionSet-method}
 \alias{coerce,marrayRaw,exprSet-method}
-\alias{coerce,marrayRaw,ExpressionSet-method}
 \alias{coerce,marrayNorm,ExpressionSet-method}
+\alias{coerce,marrayNorm,exprSet-method}
 \title{Convert Data Objects}
 
 \description{
@@ -30,17 +29,20 @@ From:\tab To:\cr
 \code{marrayNorm} \tab \code{MAList}\cr
 \code{RGList} \tab \code{exprSet}\cr
 \code{MAList} \tab \code{exprSet}\cr
+\code{MAList} \tab \code{ExpressionSet}\cr
 \code{marrayRaw} \tab \code{exprSet}\cr
-\code{marrayNorm} \tab \code{exprSet}\cr
+\code{marrayNorm} \tab \code{ExpressionSet}\cr
 }
 Note that \code{RGList} and \code{marrayRaw} objects are coerced to
-\code{exprSet} in such a way that green and red channel intensities are stored in alternate
-columns of the \code{exprs} slot expression matrix.  This means that the resulting
-\code{exprSet} object has twice as many columns as the original object.
+\code{exprSet}s in such a way that green and 
+red channel intensities are 
+stored in alternate columns of the \code{exprs} slot expression matrix.  
+This means that the resulting
+object has twice as many columns as the original object. There is intentionally no such conversion to the \code{ExpressionSet} class, as it is intended for expression values, not intensities.
 On the other hand, \code{MAList} and \code{marrayNorm} are coerced so
 that the resulting \code{exprs} slot contains log-ratios (M-values)
-and the \code{exprSet} object has the same number of columns as the
-original object.
+and the \code{exprSet} or \code{ExpressionSet} object has the same number 
+of columns as the original object.
 In this case, information on the A-values is lost.
 }
 
@@ -51,12 +53,30 @@ In this case, information on the A-values is lost.
 }
 
 \examples{
+##first set up some fake intensity matrices
+testRed = matrix(rnorm(5*2),5,2, 
+  dimnames=list(paste("gene",1:5, sep=""), c("S1", "S2")))
+testGreen = matrix(rnorm(5*2),5,2, 
+  dimnames=list(paste("gene",1:5, sep=""), c("S1", "S2")))
+
+##some sample/target info
+testTarget = data.frame(slide=c("S1", "S2"), Cy3=c("T", "C"),
+  Cy5=c("C", "T"), row.names=c("S1", "S2"))
+
+
+maT = new("marrayInfo", maLabels=c("S1", "S2"),
+  maInfo= testTarget)
+
+##now create instances and convert
 x <- new("RGList")
+x$R = testRed
+x$G = testGreen
 y <- as(x,"marrayRaw")
 
 x <- new("marrayRaw")
-x@maGf <- matrix(rnorm(5*2),5,2)
-x@maRf <- matrix(rnorm(5*2),5,2)
+x@maGf <- testGreen
+x@maRf <- testRed
+x@maTargets = maT
 y <- as(x,"RGList")
 y <- as(x,"exprSet")
 
@@ -66,22 +86,16 @@ y <- as(x,"marrayNorm")
 ##we construct a reasonably complete fake, small 
 ##instance of the marrayNorm class
 x <- new("marrayNorm")
-x@maM <- matrix(rnorm(5*2),5,2)
-dimnames(x@maM) = list(paste("gene",1:5, sep=""), c("S1", "S2"))
-x@maA <- matrix(rnorm(5*2),5,2)
-dimnames(x@maA) = list(paste("gene",1:5, sep=""), c("S1", "S2"))
-maT = new("marrayInfo", maLabels=c("S1", "S2"),
-  maInfo= data.frame(slide=c("S1", "S2"), Cy3=c("T", "C"),
-  Cy5=c("C", "T"), row.names=c("S1", "S2")))
+x@maM <- testRed
+x@maA <- testGreen
 maTargets(x) = maT
 y <- as(x,"MAList")
 y <- as(x,"exprSet")
 
 x <- new("MAList")
-x$M <- matrix(rnorm(5*2),5,2)
-dimnames(x$M) = list(paste("gene",1:5, sep=""), c("S1", "S2"))
-x$targets = data.frame(slide=c("S1", "S2"), Cy3=c("T", "C"),
-  Cy5=c("C", "T"), row.names=c("S1", "S2"))
+x$M <- testRed
+x$A <- testGreen
+x$targets = testTarget
 y <- as(x,"ExpressionSet")
 }
 
