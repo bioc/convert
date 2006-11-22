@@ -126,6 +126,17 @@ setAs("MAList", "exprSet", function(from, to)
     y
 })
 
+setAs("MAList", "ExpressionSet", function(from)
+#  Robert Gentleman
+#  22 November 2006
+{
+	nM = new("MIAME")
+	notes(nM) = list("Converted from MAList object, exprs are M-values")
+	new("ExpressionSet", exprs = as.matrix(from$M),
+	 phenoData = new("AnnotatedDataFrame", data=from$targets),
+	 experimentData = nM)
+})
+
 setAs("marrayRaw", "exprSet", function(from)
 ## Assemble green and red intensities into alternate columns
 ## Jean Yang
@@ -149,6 +160,11 @@ setAs("marrayRaw", "exprSet", function(from)
   eset
 })
 
+setAs("marrayRaw", "ExpressionSet", function(from)
+{
+	warning("not yet")
+})
+
 setAs("marrayNorm", "exprSet", function(from)
 ## Jean Yang
 ## 15 March 2004
@@ -161,3 +177,12 @@ setAs("marrayNorm", "exprSet", function(from)
   eset
 })
 
+setAs("marrayNorm", "ExpressionSet", function(from){
+	##Robert Gentleman
+	##22 November 2006
+	nM = new("MIAME")
+	notes(nM) = paste(from@maNotes, ":: Converted from marrayNorm object, exprs are log-ratios")
+	new("ExpressionSet", exprs=maM(from), 
+		phenoData=new("AnnotatedDataFrame", data=maInfo(maTargets(from))),
+		MIAME=nM)
+})

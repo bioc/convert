@@ -1,12 +1,16 @@
 \name{coerce}
+\alias{convert}
 \alias{coerce,RGList,marrayRaw-method}
 \alias{coerce,marrayRaw,RGList-method}
 \alias{coerce,MAList,marrayNorm-method}
 \alias{coerce,marrayNorm,MAList-method}
 \alias{coerce,RGList,exprSet-method}
+\alias{coerce,RGList,ExpressionSet-method}
 \alias{coerce,MAList,exprSet-method}
+\alias{coerce,MAList,ExpressionSet-method}
 \alias{coerce,marrayRaw,exprSet-method}
-\alias{coerce,marrayNorm,exprSet-method}
+\alias{coerce,marrayRaw,ExpressionSet-method}
+\alias{coerce,marrayNorm,ExpressionSet-method}
 \title{Convert Data Objects}
 
 \description{
@@ -59,15 +63,26 @@ y <- as(x,"exprSet")
 x <- new("MAList")
 y <- as(x,"marrayNorm")
 
+##we construct a reasonably complete fake, small 
+##instance of the marrayNorm class
 x <- new("marrayNorm")
 x@maM <- matrix(rnorm(5*2),5,2)
+dimnames(x@maM) = list(paste("gene",1:5, sep=""), c("S1", "S2"))
 x@maA <- matrix(rnorm(5*2),5,2)
+dimnames(x@maA) = list(paste("gene",1:5, sep=""), c("S1", "S2"))
+maT = new("marrayInfo", maLabels=c("S1", "S2"),
+  maInfo= data.frame(slide=c("S1", "S2"), Cy3=c("T", "C"),
+  Cy5=c("C", "T"), row.names=c("S1", "S2")))
+maTargets(x) = maT
 y <- as(x,"MAList")
 y <- as(x,"exprSet")
 
 x <- new("MAList")
 x$M <- matrix(rnorm(5*2),5,2)
-y <- as(x,"exprSet")
+dimnames(x$M) = list(paste("gene",1:5, sep=""), c("S1", "S2"))
+x$targets = data.frame(slide=c("S1", "S2"), Cy3=c("T", "C"),
+  Cy5=c("C", "T"), row.names=c("S1", "S2"))
+y <- as(x,"ExpressionSet")
 }
 
 \keyword{classes}
