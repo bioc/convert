@@ -110,7 +110,12 @@ setAs("RGList", "exprSet", function(from, to)
 	exprs <- aperm(exprs,c(1,3,2))
 	dim(exprs) <- c(d[1],2*d[2])
 	y@exprs <- exprs
-	if(!is.null(from$targets)) y@phenoData@pData <- targetsA2C(from$targets)
+        pD <- targetsA2C(from$targets)
+        varL = as.list(names(pD))
+        names(varL) = names(pD)
+	if(!is.null(from$targets)) 
+              phenoData(y) <- new("phenoData", pData = pD,
+                  varLabels = varL)
 	y@notes <- "Converted from RGList object, exprs are green/red intensites in odd/even columns"
     y
 })
