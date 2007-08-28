@@ -240,11 +240,8 @@ setAs("RGList", "NChannelSet", function(from)
     })
     ## phenoData
     phenoData <- 
-        if (!is.null(from$target)) {
-            new("AnnotatedDataFrame",
-                data=data.frame(FileName=from$target),
-                varMetadata=data.frame(
-                  labelDescription="Source file name"))
+        if (!is.null(from$targets)) {
+            new("AnnotatedDataFrame", data=from$targets)
         } else {
             new("AnnotatedDataFrame",
                 data=data.frame(rep(0, ncol(from)))[,FALSE])
