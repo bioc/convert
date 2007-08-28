@@ -148,6 +148,138 @@ setAs("MAList", "ExpressionSet", function(from)
         experimentData = nM)
 })
 
+setAs("marrayRaw", "NChannelSet", function(from)
+## Martin Morgan
+## 27 August, 2007
+## Modified from marrayRaw -> exprSet
+{
+    ## assayData
+    elts <- list(R=maRf(from), G=maGf(from))
+    if (length(maRb(from))>0)
+        elts[["Rb"]] <- maRb(from)
+    if (length(maGb(from))>0)
+        elts[["Gb"]] <- maGb(from)
+    assayData <-
+        do.call("assayDataNew",
+                c(storage.mode="lockedEnvironment", elts))
+    ## phenoData, featureData
+    pData <- 
+        if (length(maInfo(maTargets(from)))>0) {
+            data=maInfo(maTargets(from))
+        } else {
+            data=data.frame(rep(0, ncol(from)))[,FALSE]
+        }
+    phenoData <- new("AnnotatedDataFrame", data=pData)
+    fData <- 
+        if (length(maInfo(maGnames(from)))>0) {
+            maInfo(maGnames(from))
+        } else {
+            data.frame(rep(0, nrow(from)))[,FALSE]
+        }
+    
+    if (!is.null(rownames(assayData[["R"]])))
+        row.names(fData) <- rownames(assayData[["R"]])
+    featureData <- new("AnnotatedDataFrame", data=fData)
+    ## experimentData
+    experimentData <- new("MIAME",
+                          other=list("::Converted from marrayRaw object"))
+    ## NChannelSet
+    obj <- new("NChannelSet",
+               assayData=assayData,
+               phenoData=phenoData,
+               featureData=featureData,
+               experimentData=experimentData)
+    ## adjustments
+    if (!is.null(obj[["Names"]])) {
+        phenoData(obj)[["FileName",
+                        labelDescription="Source file name"]] <-
+                            sampleNames(obj)[[1]]
+        sampleNames(obj) <- obj[["Names"]]
+    }
+    lbls <- maLabels(maGnames(from))
+    if (length(lbls)==nrow(from)) {
+        if (any(duplicated(lbls)))
+            featureData(obj)[["maLabels",
+                              labelDescription="marrayRaw gene names"]] <-
+                                  lbls
+        else
+            featureNames(obj) <- lbls
+    }
+    obj
+})
+
+setAs("RGList", "NChannelSet", function(from)
+## Martin Morgan
+## 27 August, 2007
+{
+    ## assayData
+    assayData <- with(from, {
+        if (!exists("other", inherits=FALSE)) {
+            elts <- list(R=R, G=G)
+        } else {
+            if (is.null(names(other)) ||
+                !all(sapply(names(other), nzchar)))
+                stop(paste("RGList 'other' elements must be named, found '",
+                           paste(names(other), collapse="', '"),
+                           "'", sep=""))
+            bad <- names(other) %in% c("R", "G", "Rb", "Gb")
+            if (any(bad))
+                stop(paste("RGList 'other' elements contain reserved names '",
+                           paste(names(other)[bad],
+                                 collapse="', '"),
+                           "'", sep=""))
+                
+            elts <- c(R=R, G=G, other)
+        }
+        if (exists("Rb", inherits=FALSE))
+            elts[["Rb"]] <- Rb
+        if (exists("Gb", inherits=FALSE))
+            elts[["Gb"]] <- Gb
+        do.call("assayDataNew",
+                c(storage.mode="lockedEnvironment", elts))
+    })
+    ## phenoData
+    phenoData <- 
+        if (!is.null(from$target)) {
+            new("AnnotatedDataFrame",
+                data=data.frame(FileName=from$target),
+                varMetadata=data.frame(
+                  labelDescription="Source file name"))
+        } else {
+            new("AnnotatedDataFrame",
+                data=data.frame(rep(0, ncol(from)))[,FALSE])
+    }
+    ## featureData
+    fData <-
+        if (!is.null(from$genes))
+            from$genes
+        else
+            data.frame(x=rep(0,nrow(from)))[,FALSE]
+    if (!is.null(rownames(assayData[["R"]])))
+        row.names(fData) <- rownames(assayData[["R"]])
+    featureData <- new("AnnotatedDataFrame", data = fData)
+    if (!is.null(from$weights))
+        if ("weights" %in% names(df))
+            warning("RGList 'genes' contains column 'weights'; 'wt.fun' weights discarded")
+        else
+            featureData[["weights",
+                         labelDescription="calculated, from RGList"]] <-
+                             from$weights
+    ## experimentData
+    other <- 
+        if (!is.null(from$source))
+            list(source=from$source)
+        else
+            list()
+    experimentData <- new("MIAME",
+                          other=c("converted from marrayRaw", other))
+    new("NChannelSet",
+        assayData = assayData,
+        featureData = featureData,
+        phenoData = phenoData,
+        experimentData=experimentData)
+})
+
 setAs("marrayRaw", "exprSet", function(from)
 ## Assemble green and red intensities into alternate columns
 ## Jean Yang
@@ -192,7 +324,10 @@ setAs("marrayNorm", "ExpressionSet", function(from){
 	##22 November 2006
 	nM = new("MIAME")
 	notes(nM) = paste(from@maNotes, ":: Converted from marrayNorm object, exprs are log-ratios")
-	new("ExpressionSet", exprs=maM(from), 
+    exprs <- maM(from)
+    colnames(exprs) <- NULL
+    rownames(exprs) <- maLabels(maGnames(from))
+	new("ExpressionSet", exprs=exprs,
 		phenoData=new("AnnotatedDataFrame", data=maInfo(maTargets(from))),
-		MIAME=nM)
+		experimentData=nM)
 })

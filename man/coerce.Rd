@@ -5,6 +5,8 @@
 \alias{coerce,MAList,marrayNorm-method}
 \alias{coerce,marrayNorm,MAList-method}
 \alias{coerce,RGList,exprSet-method}
+\alias{coerce,marrayRaw,NChannelSet-method}
+\alias{coerce,RGList,NChannelSet-method}
 \alias{coerce,MAList,exprSet-method}
 \alias{coerce,MAList,ExpressionSet-method}
 \alias{coerce,marrayRaw,exprSet-method}
@@ -27,26 +29,38 @@ From:\tab To:\cr
 \code{marrayRaw} \tab \code{RGList}\cr
 \code{MAList} \tab \code{marrayNorm}\cr
 \code{marrayNorm} \tab \code{MAList}\cr
+\code{RGList} \tab \code{NChannelSet}\cr
+\code{marrayRaw} \tab \code{NChannelSet}\cr
+\code{MAList} \tab \code{ExpressionSet}\cr
+\code{marrayNorm} \tab \code{ExpressionSet}\cr
+Deprecated \tab \cr
 \code{RGList} \tab \code{exprSet}\cr
 \code{MAList} \tab \code{exprSet}\cr
-\code{MAList} \tab \code{ExpressionSet}\cr
 \code{marrayRaw} \tab \code{exprSet}\cr
-\code{marrayNorm} \tab \code{ExpressionSet}\cr
-}
-Note that \code{RGList} and \code{marrayRaw} objects are coerced to
-\code{exprSet}s in such a way that green and 
-red channel intensities are 
-stored in alternate columns of the \code{exprs} slot expression matrix.  
-This means that the resulting
-object has twice as many columns as the original object. There is intentionally no such conversion to the \code{ExpressionSet} class, as it is intended for expression values, not intensities.
-On the other hand, \code{MAList} and \code{marrayNorm} are coerced so
-that the resulting \code{exprs} slot contains log-ratios (M-values)
-and the \code{exprSet} or \code{ExpressionSet} object has the same number 
-of columns as the original object.
-In this case, information on the A-values is lost.
 }
 
-\author{Gordon Smyth}
+\code{RGList} and \code{marrayRaw} are coerced to
+\code{NChannelSet}. Channel values are not transformed.
+
+\code{MAList} and \code{marrayNorm} are coerced so that the
+\code{ExpressionSet} slot contains log-ratios (M-values) and the
+\code{ExpressionSet} object has the same number of columns as the
+original object.  In this case, information on the A-values is lost.
+
+There is intentionally no conversion from \code{RGList} or
+\code{marrayRaw} to \code{ExpressionSet}, as \code{ExpressionSet} is
+intended for expression values, not intensities.
+
+\code{exprSet} objects are deprecated, but converters to this class
+exist. \code{RGList} and \code{marrayRaw} objects are coerced to
+\code{exprSet}s in such a way that green and red channel intensities are
+stored in alternate columns of the \code{exprs} slot expression matrix.
+This means that the resulting object has twice as many columns as the
+original object.
+
+}
+
+\author{Gordon Smyth and others}
 
 \seealso{
 \code{\link[methods]{as}} in the \code{methods} package.
@@ -72,13 +86,14 @@ x <- new("RGList")
 x$R = testRed
 x$G = testGreen
 y <- as(x,"marrayRaw")
+z <- as(x, "NChannelSet")
 
 x <- new("marrayRaw")
 x@maGf <- testGreen
 x@maRf <- testRed
 x@maTargets = maT
 y <- as(x,"RGList")
-y <- as(x,"exprSet")
+z <- as(x, "NChannelSet")
 
 x <- new("MAList")
 y <- as(x,"marrayNorm")
@@ -90,7 +105,7 @@ x@maM <- testRed
 x@maA <- testGreen
 maTargets(x) = maT
 y <- as(x,"MAList")
-y <- as(x,"exprSet")
+y <- as(x, "ExpressionSet")
 
 x <- new("MAList")
 x$M <- testRed
