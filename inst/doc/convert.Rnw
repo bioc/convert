@@ -48,17 +48,21 @@ A simple list-based class for storing $M$-values
 	Stores red and green channel foreground and background intensities and associate information for a batch of spotted microarrays.
 	Analogous to \texttt{MAList}.
 \item
-\texttt{exprSet} (Biobase).
+\texttt{ExpressionSet} (Biobase).
 	Stores microarray expression data, one value for each probe for each array and associated phenotypic data.
 	Links out to an external annotation library for probe information.
-	Commonly used for single channel data such as Affymetrix or for pre-processed two-color data in the form of log-ratios ready for cluster analysis or classification.
+	Commonly used for single channel data such as Affymetrix or for pre-processed two-color data in the form of
+	log-ratios ready for cluster analysis or classification.
 \end{itemize}
-The \texttt{convert} package provides conversion to and from \texttt{RGList} and \texttt{marrayRAw}, to and from \texttt{MAList} and \texttt{MarrayNorm}, from \texttt{RGList} to \texttt{exprSet} and from \texttt{MAList} to \texttt{exprSet}.
+The \texttt{convert} package provides conversion to and from \texttt{RGList} and \texttt{marrayRaw}, to and from 
+\texttt{MAList} and \texttt{marrayNorm}, and from \texttt{MAList} and \texttt{marrayNorm} to \texttt{ExpressionSet}.
 
 %<<R>>=
+%library(Biobase)
+%library(limma)
 %x <- new("MAList")
 %x$M <- matrix(rnorm(5*2),5,2)
-%y <- as(x,"exprSet")
+%y <- as(x,"ExpressionSet")
 %@
 
 \end{document}

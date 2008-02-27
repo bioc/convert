@@ -1,6 +1,6 @@
 ## Martin Morgan
 ## 27 August, 2007
-## Modified from marrayRaw -> exprSet
+## Modified from marrayRaw -> NChannelSet
 setAs("marrayRaw", "NChannelSet", function(from) {
   
     ## assayData

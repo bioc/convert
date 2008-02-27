@@ -4,14 +4,10 @@
 \alias{coerce,marrayRaw,RGList-method}
 \alias{coerce,MAList,marrayNorm-method}
 \alias{coerce,marrayNorm,MAList-method}
-\alias{coerce,RGList,exprSet-method}
 \alias{coerce,marrayRaw,NChannelSet-method}
 \alias{coerce,RGList,NChannelSet-method}
-\alias{coerce,MAList,exprSet-method}
 \alias{coerce,MAList,ExpressionSet-method}
-\alias{coerce,marrayRaw,exprSet-method}
 \alias{coerce,marrayNorm,ExpressionSet-method}
-\alias{coerce,marrayNorm,exprSet-method}
 \title{Convert Data Objects}
 
 \description{
@@ -33,10 +29,6 @@ From:\tab To:\cr
 \code{marrayRaw} \tab \code{NChannelSet}\cr
 \code{MAList} \tab \code{ExpressionSet}\cr
 \code{marrayNorm} \tab \code{ExpressionSet}\cr
-Deprecated \tab \cr
-\code{RGList} \tab \code{exprSet}\cr
-\code{MAList} \tab \code{exprSet}\cr
-\code{marrayRaw} \tab \code{exprSet}\cr
 }
 
 \code{RGList} and \code{marrayRaw} are coerced to
@@ -50,14 +42,6 @@ original object.  In this case, information on the A-values is lost.
 There is intentionally no conversion from \code{RGList} or
 \code{marrayRaw} to \code{ExpressionSet}, as \code{ExpressionSet} is
 intended for expression values, not intensities.
-
-\code{exprSet} objects are deprecated, but converters to this class
-exist. \code{RGList} and \code{marrayRaw} objects are coerced to
-\code{exprSet}s in such a way that green and red channel intensities are
-stored in alternate columns of the \code{exprs} slot expression matrix.
-This means that the resulting object has twice as many columns as the
-original object.
-
 }
 
 \author{Gordon Smyth and others}
@@ -68,23 +52,22 @@ original object.
 
 \examples{
 ##first set up some fake intensity matrices
-testRed = matrix(rnorm(5*2),5,2, 
+testRed <- matrix(rnorm(5*2),5,2, 
   dimnames=list(paste("gene",1:5, sep=""), c("S1", "S2")))
-testGreen = matrix(rnorm(5*2),5,2, 
+testGreen <- matrix(rnorm(5*2),5,2, 
   dimnames=list(paste("gene",1:5, sep=""), c("S1", "S2")))
 
 ##some sample/target info
-testTarget = data.frame(slide=c("S1", "S2"), Cy3=c("T", "C"),
+testTarget <- data.frame(slide=c("S1", "S2"), Cy3=c("T", "C"),
   Cy5=c("C", "T"), row.names=c("S1", "S2"))
 
-
-maT = new("marrayInfo", maLabels=c("S1", "S2"),
+maT <- new("marrayInfo", maLabels=c("S1", "S2"),
   maInfo= testTarget)
 
 ##now create instances and convert
 x <- new("RGList")
-x$R = testRed
-x$G = testGreen
+x$R <- testRed
+x$G <- testGreen
 y <- as(x,"marrayRaw")
 z <- as(x, "NChannelSet")
 
@@ -110,9 +93,8 @@ y <- as(x, "ExpressionSet")
 x <- new("MAList")
 x$M <- testRed
 x$A <- testGreen
-x$targets = testTarget
+x$targets <- testTarget
 y <- as(x,"ExpressionSet")
 }
-
 \keyword{classes}
 \keyword{data}
