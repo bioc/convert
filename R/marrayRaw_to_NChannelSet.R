@@ -10,7 +10,7 @@ setAs("marrayRaw", "NChannelSet", function(from) {
     if (length(maGb(from))>0)
         elts[["Gb"]] <- maGb(from)
     assayData <-
-        do.call("assayDataNew",
+        do.call(assayDataNew,
                 c(storage.mode="lockedEnvironment", elts))
     
     ## phenoData, featureData
