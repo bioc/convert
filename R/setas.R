@@ -64,17 +64,26 @@ setAs("marrayNorm", "MAList", function(from, to)
 })
 
 setAs("marrayNorm", "ExpressionSet", function(from){
-			##Robert Gentleman
-			##22 November 2006
-			nM <- new("MIAME")
-			notes(nM) <- paste(from@maNotes, ":: Converted from marrayNorm object, exprs are log-ratios")
-			exprs <- maM(from)
-			colnames(exprs) <- NULL
-			rownames(exprs) <- maLabels(maGnames(from))
-			new("ExpressionSet", exprs=exprs,
-					phenoData=new("AnnotatedDataFrame", data=maInfo(maTargets(from))),
-					experimentData=nM)
-		})
+    ##Robert Gentleman
+    ##22 November 2006
+    nM <- new("MIAME")
+    notes(nM) <- paste(from@maNotes,
+                       ":: Converted from marrayNorm object, exprs are log-ratios")
+    exprs <- maM(from)
+    colnames(exprs) <- NULL
+    if (any(duplicated(maLabels(maGnames(from))))) {
+        rownames(exprs) <- seq_len(nrow(exprs))
+        fData <- data.frame(maGnames=maLabels(maGnames(from)))
+    } else {
+        rownames(exprs) <- maLabels(maGnames(from))
+        fData <- data.frame(row.names=seq_len(nrow(exprs)))
+    }
+
+    new("ExpressionSet", exprs=exprs,
+        phenoData=new("AnnotatedDataFrame", data=maInfo(maTargets(from))),
+        featureData=new("AnnotatedDataFrame", data=fData),
+        experimentData=nM)
+})
 
 
 setAs("MAList", "marrayNorm", function(from, to)
