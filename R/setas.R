@@ -108,11 +108,14 @@ setAs("MAList", "ExpressionSet", function(from)
 #  Robert Gentleman
 #  22 November 2006
 {
-    nM <- new("MIAME")
-    notes(nM) <- list("Converted from MAList object, exprs are M-values")
-    new("ExpressionSet", exprs = as.matrix(from$M),
-        phenoData = new("AnnotatedDataFrame", data=from$targets),
-        experimentData = nM)
+    theExperimentData <- new("MIAME")
+    notes(theExperimentData) <- list("Converted from MAList object, exprs are M-values")
+    theExprs <- as.matrix(from$M)
+    thePhenoData <- from$targets
+    rownames(thePhenoData) <- colnames(theExprs)
+    new("ExpressionSet", exprs = theExprs,
+        phenoData = new("AnnotatedDataFrame", data=thePhenoData),
+        experimentData = theExperimentData)
 })
 
 
