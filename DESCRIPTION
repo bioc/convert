@@ -4,7 +4,7 @@ Title: Convert Microarray Data Objects
 Author: Gordon Smyth <smyth@wehi.edu.au>,
 	James Wettenhall <wettenhall@wehi.edu.au>,
 	Yee Hwa (Jean Yang) <jean@biostat.ucsf.edu>,
-	Martin Morgan <mtmorgan@fhcrc.org>Martin Morgan
+	Martin Morgan <Martin.Morgan@RoswellPark.org>
 Maintainer: Yee Hwa (Jean) Yang <jean@biostat.ucsf.edu>
 Depends: R (>= 2.6.0), Biobase (>= 1.15.33), limma (>= 1.7.0), marray, utils, methods
 Description: Define coerce methods for microarray data objects.
